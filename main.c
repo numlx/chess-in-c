@@ -3,24 +3,26 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define PIECE_SIZE 68
-#define BOARD_SIZE 80
+#define PIECE_SIZE    68
+#define BOARD_SIZE    80
+#define SCREEN_HEIGHT 800
+#define SCREEN_WIDTH  800
 
 enum Piece{
   
-  EMPTY = 0,
-  W_KING = 1,
-  W_QUEEN = 2,
+  EMPTY    = 0,
+  W_KING   = 1,
+  W_QUEEN  = 2,
   W_BISHOP = 3,
   W_KNIGHT = 4,
-  W_ROOK = 5,
-  W_PAWN = 6,
-  B_KING = -1,
-  B_QUEEN = -2,
+  W_ROOK   = 5,
+  W_PAWN   = 6,
+  B_KING   = -1,
+  B_QUEEN  = -2,
   B_BISHOP = -3,
   B_KNIGHT = -4,
-  B_ROOK = -5,
-  B_PAWN = -6
+  B_ROOK   = -5,
+  B_PAWN   = -6
 
 }Piece;
 
@@ -53,12 +55,12 @@ int board[8][8] = {
 
 int main(){
   
-  const int screenWidth = 800;
-  const int screenHeight = 800;
-
-  InitWindow(screenWidth, screenHeight, "Chess");
+  InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Chess");
 
   Texture2D atlas = LoadTexture("pieces.png");
+
+  int offsetX = (GetScreenWidth() - PIECE_SIZE * 8) / 2;
+  int offsetY = (GetScreenHeight() - PIECE_SIZE * 8) / 2;
 
   SetTargetFPS(60);
 
@@ -71,7 +73,7 @@ int main(){
           int piece = board[k][i];
           if(piece == 0) continue;
           Rectangle src = PieceSource(piece);
-          Rectangle dst = {i * BOARD_SIZE, k * BOARD_SIZE, PIECE_SIZE, PIECE_SIZE};
+          Rectangle dst = {i * PIECE_SIZE + offsetX, k * PIECE_SIZE + offsetY, PIECE_SIZE, PIECE_SIZE};
           DrawTexturePro(atlas, src, dst, (Vector2){0, 0,}, 0, WHITE);
         }
       }
