@@ -7,6 +7,7 @@
 #define BOARD_SIZE    80
 #define SCREEN_HEIGHT 800
 #define SCREEN_WIDTH  800
+#define SQUARE_SIZE   68
 
 enum Piece{
   
@@ -53,12 +54,27 @@ int board[8][8] = {
   {  5, 4, 3, 2, 1, 3, 4, 5 }
 };
 
+void DrawBoard(){
+  int offsetX = (GetScreenWidth() - PIECE_SIZE * 8) / 2;
+  int offsetY = (GetScreenHeight() - PIECE_SIZE * 8) / 2;
+  for(int x = 0; x < 8; x++){
+    for(int y = 0; y < 8; y++){
+      if((x + y) % 2){
+        DrawRectangle(x * SQUARE_SIZE + offsetX, y * SQUARE_SIZE + offsetY, SQUARE_SIZE, SQUARE_SIZE, DARKGREEN);
+      } else {
+        DrawRectangle(x * SQUARE_SIZE + offsetX, y * SQUARE_SIZE + offsetY, SQUARE_SIZE, SQUARE_SIZE, WHITE);
+      }
+    }
+  }
+}
+
 int main(){
   
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Chess");
 
   Texture2D atlas = LoadTexture("pieces.png");
-
+  ClearBackground(BLACK);
+  
   int offsetX = (GetScreenWidth() - PIECE_SIZE * 8) / 2;
   int offsetY = (GetScreenHeight() - PIECE_SIZE * 8) / 2;
 
@@ -66,7 +82,7 @@ int main(){
 
   while(!WindowShouldClose()){
     BeginDrawing();
-    ClearBackground(WHITE);
+    DrawBoard(); 
 
     for(int i = 0; i < 8; i++){
         for(int k = 0; k < 8; k++){
